@@ -9,7 +9,7 @@ namespace Api.Data.Context
         {
             //var connectionsString = "Server=localhost;Port=3306;Database=dbAPI;Uid=root;Pwd=mudar@123";
             var connectionsString = "Server=.\\SQLEXPRESS2017;User Id=sa;Pwd=mudar@123;Database=course";
-            //var connectionsString = "Server=(local)\\SQLEXPRESS2017:1433;Database=dbAPI;";
+            //var connectionsString = "Server=(local)\\SQLEXPRESS2017:1433;User Id=sa;Pwd=mudar@123;Database=dbAPI";
             var optionsBuilder = new DbContextOptionsBuilder<MyContext>();
             optionsBuilder.UseSqlServer(connectionsString);
             //optionsBuilder.UseMySql(connectionsString);
