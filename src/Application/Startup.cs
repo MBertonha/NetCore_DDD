@@ -6,10 +6,13 @@ using Api.CrossCutting.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Application
 {
@@ -29,6 +32,23 @@ namespace Application
             ConfigureService.ConfigureDependenciesService(services);
             ConfigureRepository.ConfigureDependenciesRepository(services);
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+
+            services.AddSwaggerGen(c =>
+                    {
+                        c.SwaggerDoc("v1", new OpenApiInfo
+                        {
+                            Title = "My API",
+                            Version = "v1",
+                            Description = "Exemplo de API Rest criada com ASP.NET Core",
+                            Contact = new OpenApiContact
+                            {
+                                Name = "Matheus Bertonha",
+                                Url = new Uri("https://www.google.com.br")
+                            }
+                        });
+                    });
+
             services.AddControllers();
         }
 
@@ -39,6 +59,19 @@ namespace Application
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("swagger/v1/swagger.json",
+                "Exemplo de API REST com ASP.NET Core");
+                c.RoutePrefix = string.Empty;
+            });
+
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
+
 
             app.UseRouting();
 
