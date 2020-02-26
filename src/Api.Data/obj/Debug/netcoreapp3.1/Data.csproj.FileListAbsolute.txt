@@ -1,0 +1,13 @@
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\bin\Debug\netcoreapp3.1\Data.deps.json
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\bin\Debug\netcoreapp3.1\Data.dll
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\bin\Debug\netcoreapp3.1\Data.pdb
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\obj\Debug\netcoreapp3.1\Data.csprojAssemblyReference.cache
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\obj\Debug\netcoreapp3.1\Data.AssemblyInfoInputs.cache
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\obj\Debug\netcoreapp3.1\Data.AssemblyInfo.cs
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\obj\Debug\netcoreapp3.1\Data.dll
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\obj\Debug\netcoreapp3.1\Data.pdb
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\bin\Debug\netcoreapp3.1\Data.runtimeconfig.json
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\bin\Debug\netcoreapp3.1\Data.runtimeconfig.dev.json
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\bin\Debug\netcoreapp3.1\Domain.dll
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\bin\Debug\netcoreapp3.1\Domain.pdb
+C:\Users\matheus.bertonha\Desktop\MBertonha\Curso NetCore\src\Api.Data\obj\Debug\netcoreapp3.1\Data.csproj.CopyComplete
