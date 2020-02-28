@@ -10,7 +10,7 @@ namespace Api.Data.Context
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
-            Database.Migrate();
+            //Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
