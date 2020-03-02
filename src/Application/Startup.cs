@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.CrossCutting.DependencyInjection;
+using Api.Domain.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -33,6 +35,14 @@ namespace Application
             ConfigureRepository.ConfigureDependenciesRepository(services);
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
+            var signingConfiguration = new SigningConfigurations();
+            services.AddSingleton(signingConfiguration);
+
+            var tokenConfigrations = new TokenConfiguration();
+            new ConfigureFromConfigurationOptions<TokenConfiguration>(
+                Configuration.GetSection("TokenConfiguration"))
+                    .Configure(tokenConfigrations);
+            services.AddSingleton(tokenConfigrations);
 
             services.AddSwaggerGen(c =>
                     {
