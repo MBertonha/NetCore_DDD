@@ -13,33 +13,39 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
-namespace Application {
-    public class Startup {
-        public Startup (IConfiguration configuration) {
+namespace Application
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices (IServiceCollection services) {
+        public void ConfigureServices(IServiceCollection services)
+        {
 
-            ConfigureService.ConfigureDependenciesService (services);
-            ConfigureRepository.ConfigureDependenciesRepository (services);
+            ConfigureService.ConfigureDependenciesService(services);
+            ConfigureRepository.ConfigureDependenciesRepository(services);
 
-            var signingConfiguration = new SigningConfigurations ();
-            services.AddSingleton (signingConfiguration);
+            var signingConfiguration = new SigningConfigurations();
+            services.AddSingleton(signingConfiguration);
 
-            var tokenConfigrations = new TokenConfiguration ();
-            new ConfigureFromConfigurationOptions<TokenConfiguration> (
-                    Configuration.GetSection ("TokenConfiguration"))
-                .Configure (tokenConfigrations);
-            services.AddSingleton (tokenConfigrations);
+            var tokenConfigrations = new TokenConfiguration();
+            new ConfigureFromConfigurationOptions<TokenConfiguration>(
+                    Configuration.GetSection("TokenConfiguration"))
+                .Configure(tokenConfigrations);
+            services.AddSingleton(tokenConfigrations);
 
-            services.AddAuthentication (authOptions => {
+            services.AddAuthentication(authOptions =>
+            {
                 authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer (bearerOptions => {
+            }).AddJwtBearer(bearerOptions =>
+            {
                 var paramsValidation = bearerOptions.TokenValidationParameters;
                 paramsValidation.IssuerSigningKey = signingConfiguration.Key;
                 paramsValidation.ValidAudience = tokenConfigrations.Audience;
@@ -49,33 +55,38 @@ namespace Application {
                 paramsValidation.ClockSkew = TimeSpan.Zero;
             });
 
-            services.AddAuthorization (auth => {
-                auth.AddPolicy ("Bearer", new AuthorizationPolicyBuilder ()
-                    .AddAuthenticationSchemes (JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser ().Build ());
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
             });
 
-            services.AddSwaggerGen (c => {
-                c.SwaggerDoc ("v1",
-                    new OpenApiInfo {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
                         Title = "My API",
-                            Version = "v1",
-                            Description = "Exemplo de API Rest criada com ASP.NET Core",
-                            Contact = new OpenApiContact {
-                                Name = "Matheus Bertonha",
-                                    Email = string.Empty,
-                                    Url = new Uri ("https://www.google.com.br")
-                            }
+                        Version = "v1",
+                        Description = "Exemplo de API Rest criada com ASP.NET Core",
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Matheus Bertonha",
+                            Email = string.Empty,
+                            Url = new Uri("https://www.google.com.br")
+                        }
                     });
 
-                c.AddSecurityDefinition ("Bearer", new OpenApiSecurityScheme {
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
                     In = ParameterLocation.Header,
-                        Description = "Entre com o token",
-                        Name = "Authorization",
-                        Type = SecuritySchemeType.ApiKey
+                    Description = "Entre com o token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
                 });
 
-                c.AddSecurityRequirement (new OpenApiSecurityRequirement {
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
                     {
                         new OpenApiSecurityScheme {
                             Reference = new OpenApiReference {
@@ -88,33 +99,36 @@ namespace Application {
 
             });
 
-            services.AddControllers ();
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddControllers().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
-            if (env.IsDevelopment ()) {
-                app.UseDeveloperExceptionPage ();
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger ();
-            app.UseSwaggerUI (c => {
-                c.SwaggerEndpoint ("swagger/v1/swagger.json",
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("swagger/v1/swagger.json",
                     "Exemplo de API REST com ASP.NET Core");
                 c.RoutePrefix = string.Empty;
             });
 
-            var option = new RewriteOptions ();
-            option.AddRedirect ("^$", "swagger");
-            app.UseRewriter (option);
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
 
-            app.UseRouting ();
+            app.UseRouting();
 
-            app.UseAuthorization ();
+            app.UseAuthorization();
 
-            app.UseEndpoints (endpoints => {
-                endpoints.MapControllers ();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
             });
         }
     }
